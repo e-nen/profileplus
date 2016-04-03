@@ -19,6 +19,9 @@
 #
 # profileplus version 1.0
 
+# this needs further sanity checks
+# require git so updating is simple?
+
 PFPINSTALLBINDEPS='mkdir cp chown chmod git'
 for dependencybin in $PFPINSTALLBINDEPS; do
 	CHECKDEPBIN=`which $dependencybin 2>/dev/null`
@@ -72,8 +75,7 @@ PFPMOI="global"
 # make this configurable later
 PFPINSTDIR="/etc/profileplus"
 
-#echo "INSTALL: creating $PFPINSTDIR"
-#mkdir $PFPINSTDIR
+echo "INSTALL: creating $PFPINSTDIR"
 cd /etc
 git clone https://github.com/e-nen/profileplus
 # test that the $PFPINSTDIR is there
