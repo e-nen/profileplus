@@ -191,7 +191,6 @@ if [ -f /etc/gentoo-release ]; then
 		read USEGENTOOUP
 
 		if [ -z $USEGENTOOUP ] || [ $USEGENTOOUP == "y" ] || [ $USEGENTOOUP == "Y" ]; then
-# INSTALL CRONTAB TO SYNC DAILY AND MAKE A REPORT
 			echo "declare -r PFPGENTOOUPDATE=1 &>/dev/null" >>$PFPCONFIG
 			ln -s $PFPINSTDIR/modules/gentooupdate.sh $PFPINSTDIR/sbin/gentooupdate
 			break
@@ -337,7 +336,7 @@ do
 	fi
 done
 
-# prompt
+# This needs to be fixed to call a function from prompt.sh... messy
 declare -a PCC
 PCC[0]='\e[0;30m' # Black - Regular
 PCC[1]='\e[0;31m' # Red
