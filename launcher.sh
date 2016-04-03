@@ -20,7 +20,7 @@
 # profileplus version 1.0
 
 if [ -f /etc/profileplus/config ]; then
-# eventually make this check the config perms and env
+# this needs to check the config perms and env
 	source /etc/profileplus/config
 else
 	echo "ERROR: /etc/profileplus/config not found or readable"
@@ -34,14 +34,12 @@ if [ -z $PFPINSTDIR ]; then
 	exit 2
 fi
 
-# profileplus PATH
 if [ "$EUID" == "0" ]; then
 	export PATH=$PATH:$PFPINSTDIR/sbin:$PFPINSTDIR/bin &>/dev/null
 else
 	export PATH=$PATH:$PFPINSTDIR/bin &>/dev/null
 fi
 
-# root PATH
 if [ "$PFPPATHROOT" == "1" ] && [ "$EUID" == "0" ]; then
 	if ! [ -d /root/bin ]; then
 		echo -e "\nCreating /root/bin\n"
@@ -51,7 +49,6 @@ if [ "$PFPPATHROOT" == "1" ] && [ "$EUID" == "0" ]; then
 	export PATH=/root/bin:$PATH &>/dev/null
 fi
 
-# user PATH
 if [ "$PFPPATHUSER" == "1" ] && [ "$EUID" != "0" ]; then
 	if ! [ -d $HOME/bin ]; then
 		echo -e "\nCreating $HOME/bin\n"
@@ -61,32 +58,26 @@ if [ "$PFPPATHUSER" == "1" ] && [ "$EUID" != "0" ]; then
 	export PATH=$HOME/bin:$PATH &>/dev/null
 fi
 
-# lock PATH
 if [ "$PFPPATHLOCK" == "1" ]; then
 	declare -r PATH=$PATH &>/dev/null
 fi
 
-# protect shell configs
 if [ "$PFPPUSCF" == "1" ] && [ "$EUID" == "0" ]; then
 	$PFPINSTDIR/sbin/protectshellconfigs
 fi
 
-# solarisprtdiag.sh
 if [ "$PFPSOLARISPRTDIAG" == "1" ] && [ "$EUID" == "0" ]; then
 	$PFPINSTDIR/sbin/solarisprtdiag
 fi
 
-# rlog
 if [ "$PFPRLOG" == "1" ]; then
 	source $PFPINSTDIR/modules/rlog.sh
 fi
 
-# shopt
 if [ "$PFPSHOPT" == "1" ]; then
 	source $PFPINSTDIR/modules/shopt.sh
 fi
 
-# prompt
 if ! [ "$PFPPROMPT" == "0" ]; then
 	source $PFPINSTDIR/modules/prompt.sh
 	prompt
