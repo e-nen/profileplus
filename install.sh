@@ -19,6 +19,8 @@
 #
 # profileplus version 1.0
 
+# needs some extra sanity checks
+
 PFPINSTALLBINDEPS='mkdir cp chown chmod'
 for dependencybin in $PFPINSTALLBINDEPS; do
 	CHECKDEPBIN=`which $dependencybin 2>/dev/null`
