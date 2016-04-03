@@ -19,6 +19,10 @@
 #
 # profileplus version 1.0
 
+# this needs a couple more sanity checks
+# clean up skel
+# remove crontabs
+
 if [ -d /etc/profileplus ]; then
 	if [ "$EUID" != "0" ]; then
 		echo "ERROR: root user privileges required"
