@@ -60,13 +60,13 @@ case $SHELL in
 		declare -r HISTFILE="$PFPRLOGDIR/$SUSER" &>/dev/null
 		declare -r HISTFILESIZE=$PFPRLOGSIZE &>/dev/null
 		declare -r HISTSIZE=$PFPRLOGLINES &>/dev/null
-		declare -r HISTTIMEFORMAT="%d/%m/%y %T "
+		declare -r HISTTIMEFORMAT="%d/%m/%y %T " &>/dev/null
 		;;
 	*/ksh)
 		typeset -r HISTFILE="$PFPRLOGDIR/$SUSER" &>/dev/null
 		typeset -r HISTFILESIZE=$PFPRLOGSIZE &>/dev/null
 		typeset -r HISTSIZE=$PFPRLOGLINES &>/dev/null
-		typeset -r HISTTIMEFORMAT="%d/%m/%y %T "
+		typeset -r HISTTIMEFORMAT="%d/%m/%y %T " &>/dev/null
 		;;
 	*)
 		echo "ERROR: your shell is not compatible."

@@ -88,7 +88,7 @@ do
 	echo
 	echo "This option will essentially render trusted path execution useless."
 	echo "Users can create and execute things from their home directory."
-	echo 
+	echo
 	echo -n "Append user path with \$HOME/bin? [Y/n]: "
 	read USEPATHUSER
 

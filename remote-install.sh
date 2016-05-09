@@ -99,7 +99,8 @@ else
 fi
 
 echo "INSTALL: completed successfully"
-
-/etc/profileplus/configure.sh
+echo
+echo "You now need to run as root: /etc/profileplus/configure.sh"
+echo
 
 exit 0
