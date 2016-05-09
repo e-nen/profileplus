@@ -8,21 +8,30 @@ This project mainly aims to consolidate all of the shell customizations many of 
 To install simply run the following as root. If you don't trust using curl as root you can examine the source code to the remote 
 installer first or clone the git repo yourself and run the install.sh script.
 
->curl https://raw.githubusercontent.com/e-nen/profileplus/master/remote-install.sh |bash
+```bash
+curl https://raw.githubusercontent.com/e-nen/profileplus/master/remote-install.sh | bash
+```
 
 Once it is installed you must run the following as root to configure profileplus.
->/etc/profileplus/configure.sh
+
+```bash
+/etc/profileplus/configure.sh
+```
 
 ## Quick Update
 To update simply run the following as root.
 
->cd /etc/profileplus
->git pull
+```bash
+cd /etc/profileplus
+git pull
+```
 
 To validate you have a valid configuration (updates may at times make additions and changes to the format) you can run the 
 following as root.
 
->/etc/profileplus/config-check.sh
+```bash
+/etc/profileplus/config-check.sh
+```
 
 ## Modules
 All of the value in profileplus comes from the ability to apply several modules to an environment with a single launcher thats executed with the standard shell profile.
