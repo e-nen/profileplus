@@ -29,7 +29,7 @@ zzgentooupdateusage()
 	echo '	-s - Portage rsync'
 	echo '	-w - Portage web rsync'
 	echo '	-l - Show build env, updates and news'
-	echo '  -L - Show available updates (crontab friendly)'
+	echo '	-L - Show available updates (crontab friendly)'
 	echo '	-f - Fetch available updates'
 	echo '	-u - Update, purge news, etc-update, depclean and revdep-rebuild'
 	echo '	-p - Python update'
