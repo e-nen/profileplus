@@ -29,6 +29,7 @@ zzgentooupdateusage()
 	echo '	-s - Portage rsync'
 	echo '	-w - Portage web rsync'
 	echo '	-l - Show build env, updates and news'
+	echo '  -L - Show available updates (crontab friendly)'
 	echo '	-f - Fetch available updates'
 	echo '	-u - Update, purge news, etc-update, depclean and revdep-rebuild'
 	echo '	-p - Python update'
@@ -262,6 +263,23 @@ zzgentooupdateshow()
 	return 0
 }
 
+zzgentooupdateshowsimple()
+{
+	zzgentooupdatepackagecount=0
+	for curpackage in `emerge -uDNvp --with-bdeps=y @world 2>/dev/null | grep --color=never '\[ebuild' | awk -F "]" '{ print $2 }' | awk -F "[" '{print $1 }' | xargs`
+	do
+		echo "$curpackage"
+		zzgentooupdatepackagecount=$((zzgentooupdatepackagecount+1))
+	done
+
+	if [ $zzgentooupdatepackagecount -gt 0 ]; then
+		echo
+		echo "Total Packages: $zzgentooupdatepackagecount"
+	fi
+
+	return 0
+}
+
 zzgentoorevdeprebuild()
 {
 	echo ">>> Repairing broken dependencies"
@@ -371,12 +389,14 @@ if [ -L /etc/make.conf ]; then
 	echo "WARNING: removing /etc/make.conf symbolic link"
 	rm /etc/make.conf
 fi
+
 if [ -f /etc/make.conf ] && [ -f /etc/portage/make.conf]; then
 	zzgentooupdatects=`date +%m%d%Y%H%M`
 	zzgentoomkcfclrtmp="/etc/portage/make.conf.bak-$zzgentooupdatects"
 	echo "WARNING: /etc/make.conf and /etc/portage/make.conf.. moving /etc/make.conf to $zzgentoomkcfclrtmp"
 	mv /etc/make.conf $zzgentoomkcfclrtmp
 fi
+
 if [ -f /etc/make.conf ] && ! [ -f /etc/portage/make.conf ]; then
 	echo "WARNING: moving /etc/make.conf to /etc/portage/make.conf"
 	mv /etc/make.conf /etc/portage/make.conf
@@ -398,7 +418,7 @@ for dependencybin in $GENTOOUPDATEBINDEPS; do
 	fi
 done
 
-args=`getopt aswlfupetcrdUnNRh $*`
+args=`getopt aswlLfupetcrdUnNRh $*`
 if [ "$?" != "0" ]; then
 	zzgentooupdateusage
 
@@ -424,6 +444,10 @@ for i; do
 		-l)
 			shift
 			zzgentooupdateshow
+			;;
+		-L)
+			shift
+			zzgentooupdateshowsimple
 			;;
 		-f)
 			shift
