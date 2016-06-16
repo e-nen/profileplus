@@ -49,13 +49,21 @@ if [ -f /etc/profileplus/config ]; then
 	echo "WARNING: /etc/profileplus/config is being removed"
 	rm /etc/profileplus/config
 fi
+
 PFPMOI="global"
 PFPINSTDIR="/etc/profileplus"
 PFPCONFIG=$PFPINSTDIR/config
+
 echo "CONFIG: creating $PFPCONFIG"
 touch $PFPCONFIG
 chown root:root $PFPCONFIG
 chmod 644 $PFPCONFIG
+
+echo "CONFIG: creating $PFPINSTDIR/bin"
+mkdir $PFPINSTDIR/bin
+echo "CONFIG: creating $PFPINSTDIR/sbin"
+mkdir $PFPINSTDIR/sbin
+chmod 700 $PFPINSTDIR/sbin
 
 echo "# profileplus version 1.0" >$PFPCONFIG
 echo >>$PFPCONFIG
