@@ -27,7 +27,9 @@ zzgentooupdateusage()
 	echo 'Usage: gentooupdate <opts>'
 	echo '	-a - Update all (same as -slftupec)'
 	echo '	-s - Portage rsync'
+	echo '	-S - Portage rsync (Silent)'
 	echo '	-w - Portage web rsync'
+	echo '	-W - Portage web rsync (Silent)'
 	echo '	-l - Show build env, updates and news'
 	echo '	-L - Show available updates (crontab friendly)'
 	echo '	-f - Fetch available updates'
@@ -86,6 +88,17 @@ zzgentooupdatesync()
 	return 0
 }
 
+zzgentooupdatesyncsilent()
+{
+	emerge --quiet --sync &>/dev/null
+
+	if [ -n "`grep layman /etc/portage/make.conf`" ]; then
+			layman -S -Q 2 &>/dev/null
+	fi
+
+	return 0
+}
+
 zzgentooupdatewebsync()
 {
 	echo -n ">>> Web syncing "
@@ -96,6 +109,17 @@ zzgentooupdatewebsync()
 			echo -n ">>> Syncing layman "
 			date
 			layman -S -Q 2
+	fi
+
+	return 0
+}
+
+zzgentooupdatewebsyncsilent()
+{
+	emerge-webrsync --quiet &>/dev/null
+
+	if [ -n "`grep layman /etc/portage/make.conf`" ]; then
+			layman -S -Q 2 &>/dev/null
 	fi
 
 	return 0
@@ -418,7 +442,7 @@ for dependencybin in $GENTOOUPDATEBINDEPS; do
 	fi
 done
 
-args=`getopt aswlLfupetcrdUnNRh $*`
+args=`getopt asSwWlLfupetcrdUnNRh $*`
 if [ "$?" != "0" ]; then
 	zzgentooupdateusage
 
@@ -437,9 +461,17 @@ for i; do
 			shift
 			zzgentooupdatesync
 			;;
+		-S)
+			shift
+			zzgentooupdatesyncsilent
+			;;
 		-w)
 			shift
 			zzgentooupdatewebsync
+			;;
+		-W)
+			shift
+			zzgentooupdatewebsyncsilent
 			;;
 		-l)
 			shift
