@@ -81,16 +81,16 @@ git clone https://github.com/e-nen/profileplus
 # test that the $PFPINSTDIR is there
 # test that the files are also there...
 
-mkdir $PFPINSTDIR/bin
-mkdir $PFPINSTDIR/sbin
-chown -R root:root $PFPINSTDIR
-chmod 700 $PFPINSTDIR/sbin
-chmod 755 $PFPINSTDIR/bin
-chmod 755 $PFPINSTDIR/configure.sh
-chmod 755 $PFPINSTDIR/launcher.sh
-chmod 755 $PFPINSTDIR/uninstall.sh
-chmod 755 $PFPINSTDIR/modules/*.sh
-chmod 755 $PFPINSTDIR/modules
+#mkdir $PFPINSTDIR/bin
+#mkdir $PFPINSTDIR/sbin
+#chown -R root:root $PFPINSTDIR
+#chmod 700 $PFPINSTDIR/sbin
+#chmod 755 $PFPINSTDIR/bin
+#chmod 755 $PFPINSTDIR/configure.sh
+#chmod 755 $PFPINSTDIR/launcher.sh
+#chmod 755 $PFPINSTDIR/uninstall.sh
+#chmod 755 $PFPINSTDIR/modules/*.sh
+#chmod 755 $PFPINSTDIR/modules
 
 if [ -d /etc/profile.d ]; then
 	ln -s $PFPINSTDIR/launcher.sh /etc/profile.d/profileplus-launcher.sh
