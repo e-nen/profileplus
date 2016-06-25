@@ -290,7 +290,7 @@ zzgentooupdateshow()
 zzgentooupdateshowsimple()
 {
 	zzgentooupdatepackagecount=0
-	for curpackage in `emerge -uDNvp --with-bdeps=y @world 2>/dev/null | grep --color=never '\[ebuild' | awk -F "]" '{ print $2 }' | awk -F "[" '{print $1 }' | xargs`
+	for curpackage in `emerge -uDNvp --with-bdeps=y @world 2>/dev/null | grep --color=never '\[ebuild' | awk -F "]" '{ print $2 }' | awk -F " " '{print $1 }' | xargs`
 	do
 		echo "$curpackage"
 		zzgentooupdatepackagecount=$((zzgentooupdatepackagecount+1))
