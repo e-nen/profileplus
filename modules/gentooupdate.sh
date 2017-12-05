@@ -34,7 +34,6 @@ zzgentooupdateusage()
 	echo '	-L - Show available updates (crontab friendly)'
 	echo '	-f - Fetch available updates'
 	echo '	-u - Update, purge news, etc-update, depclean and revdep-rebuild'
-	echo '	-p - Python update'
 	echo '	-e - Perl cleaner'
 	echo '	-t - Sanitize distfiles permissions'
 	echo '	-c - Clean distfiles'
@@ -66,7 +65,6 @@ zzgentooupdateall()
 	zzgentooupdatefetch
 	zzgentooupdatesanitize
 	zzgentooupdateupdt
-	zzgentooupdatepyth
 	zzgentooupdateprlc
 	zzgentooupdateclean
 
@@ -378,14 +376,6 @@ zzgentooupdaterebuild()
 	return 0
 }
 
-zzgentooupdatepyth()
-{
-	echo ">>> Python updater"
-	python-updater -- -vq
-
-	return 0
-}
-
 zzgentooupdateprlc()
 {
 	local zzgentooupdatets=`date +%m%d%Y%H%M%S`
@@ -426,7 +416,7 @@ if [ -f /etc/make.conf ] && ! [ -f /etc/portage/make.conf ]; then
 	mv /etc/make.conf /etc/portage/make.conf
 fi
 
-GENTOOUPDATEBINDEPS='getopt date chown chmod rm xargs find emerge emerge-webrsync eselect gcc-config etc-update revdep-rebuild python-updater perl-cleaner'
+GENTOOUPDATEBINDEPS='getopt date chown chmod rm xargs find emerge emerge-webrsync eselect gcc-config etc-update revdep-rebuild perl-cleaner'
 for dependencybin in $GENTOOUPDATEBINDEPS; do
 	CHECKDEPBIN=`which $dependencybin 2>/dev/null`
 	if [ "$?" != "0" ]; then
@@ -442,7 +432,7 @@ for dependencybin in $GENTOOUPDATEBINDEPS; do
 	fi
 done
 
-args=`getopt asSwWlLfupetcrdUnNRh $*`
+args=`getopt asSwWlLfuetcrdUnNRh $*`
 if [ "$?" != "0" ]; then
 	zzgentooupdateusage
 
@@ -488,10 +478,6 @@ for i; do
 		-u)
 			shift
 			zzgentooupdateupdt
-			;;
-		-p)
-			shift
-			zzgentooupdatepyth
 			;;
 		-e)
 			shift
