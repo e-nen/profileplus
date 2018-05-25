@@ -2,12 +2,12 @@
 
 date
 
-apt-get update
-apt-get -y -q dist-upgrade --fix-missing
-apt-get -y -qq clean
-apt-get -y -qq autoremove
-apt-get -y -qq autoclean
-apt-get -y purge $(dpkg -l | tail -n +6 | grep -v '^ii' | awk '{print $2}')
+apt update
+apt -y -q dist-upgrade --fix-missing
+apt -y -qq clean
+apt -y -qq autoremove
+apt -y -qq autoclean
+apt -y purge $(dpkg -l | tail -n +6 | grep -v '^ii' | awk '{print $2}')
 
 UDBBIN=$(which updatedb)
 if [ -x "${UDBBIN}" ]; then
