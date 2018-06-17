@@ -1,21 +1,28 @@
 # profileplus
-Shell environment supplement suite
+An extensible shell environment supplement suite
 
 ## Overview
-This project mainly aims to consolidate all of the shell customizations many of the contributors have applied individually to their boxes over the years. The goal is to have the ability to highly customize your shell environment with little hassle.
+This project mainly aims to consolidate all of the shell customizations and scripts many of the contributors have applied individually to their boxes over the years. The goal is to have the ability to highly customize your shell environment with little hassle.
 
 ## Quick Install
-To install simply run the following as root. If you don't trust using curl as root you can examine the source code to the remote 
-installer first or clone the git repo yourself and run the install.sh script.
+To install simply run the following. If you don't trust using curl as root you can examine the source code to the remote installer first.
 
 ```bash
-curl https://raw.githubusercontent.com/e-nen/profileplus/master/remote-install.sh | bash
+sudo curl https://raw.githubusercontent.com/e-nen/profileplus/master/sbin/remote-install.sh | bash
 ```
 
-Once it is installed you must run the following as root to configure profileplus.
+Once it's installed you must run the following to configure profileplus.
 
 ```bash
-/etc/profileplus/configure.sh
+sudo /etc/profileplus/sbin/configure.sh
+```
+
+Alternatively, if you prefer a local install, clone the git repo and run the install.sh script.
+
+```bash
+git clone https://github.com/e-nen/profileplus.git
+cd profileplus/sbin
+sudo ./install.sh
 ```
 
 ## Quick Update
@@ -26,11 +33,10 @@ cd /etc/profileplus
 git pull
 ```
 
-To validate you have a valid configuration (updates may at times make additions and changes to the format) you can run the 
-following as root.
+To validate your configuration (updates may at times make additions and changes to the format) you can run the following as root.
 
 ```bash
-/etc/profileplus/config-check.sh
+/etc/profileplus/sbin/config-check.sh
 ```
 
 ## Modules
