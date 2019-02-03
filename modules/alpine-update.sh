@@ -1,3 +1,3 @@
 #!/bin/bash
 
-apk update && apk update -i
+apk update && apk upgrade -i
