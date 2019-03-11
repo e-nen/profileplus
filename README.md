@@ -26,7 +26,7 @@ cd /etc/profileplus
 git pull
 ```
 
-To validate you have a valid configuration (updates may at times make additions and changes to the format) you can run the 
+To validate your configuration (updates may at times make additions and changes to the format) you can run the 
 following as root.
 
 ```bash
