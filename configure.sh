@@ -70,10 +70,12 @@ if [ "$1" == "-1" ]; then
 	echo "declare -r PFPRLOGLINES=100000000 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/rlogupdate.sh /etc/profileplus/sbin/rlogupdate
 	/etc/profileplus/sbin/rlogupdate
-	crontab -l|sed '/^#/ d' >/tmp/rlog-cron
-	echo "0 */2 * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
-	crontab /tmp/rlog-cron
-	rm /tmp/rlog-cron
+	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/rlogupdate)" ]; then                                                                                                               
+		crontab -l|sed '/^#/ d' >/tmp/rlog-cron
+		echo "0 */2 * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
+		crontab /tmp/rlog-cron
+		rm /tmp/rlog-cron
+	fi
 	echo "declare -r PFPSHOPT=1 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPOSUPDATE=1 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/os-update.sh /etc/profileplus/sbin/os-update
@@ -120,10 +122,12 @@ if [ -z $USERLOG ] || [ $USERLOG == "y" ] || [ $USERLOG == "Y" ]; then
 	echo "declare -r PFPRLOGLINES=100000000 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/rlogupdate.sh /etc/profileplus/sbin/rlogupdate
 	/etc/profileplus/sbin/rlogupdate
-	crontab -l|sed '/^#/ d' >/tmp/rlog-cron
-	echo "0 */2 * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
-	crontab /tmp/rlog-cron
-	rm /tmp/rlog-cron
+	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/rlogupdate)" ]; then                                                                                                               
+		crontab -l|sed '/^#/ d' >/tmp/rlog-cron
+		echo "0 */2 * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
+		crontab /tmp/rlog-cron
+		rm /tmp/rlog-cron
+	fi
 else
 	echo "declare -r PFPRLOG=0 &>/dev/null" >>/etc/profileplus/config
 fi
