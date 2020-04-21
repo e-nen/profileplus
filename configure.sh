@@ -58,7 +58,7 @@ chmod 700 /etc/profileplus/sbin
 
 echo -e "# profileplus version 2.0\n" >/etc/profileplus/config
 
-if [ $1 == "-1" ]; then
+if [ "$1" == "-1" ]; then
 	echo "declare -r PFPPATHROOT=1 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPPATHUSER=1 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPPATHLOCK=0 &>/dev/null" >>/etc/profileplus/config
