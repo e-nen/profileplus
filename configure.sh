@@ -83,28 +83,28 @@ if [ $1 == "-1" ]; then
 	exit 0
 fi
 
-read -e -t 10 -n 1 -p "Append root path with /root/bin? [Y/n]: " USEPATHROOT
+read -e -t 30 -p "Append root path with /root/bin? [Y/n]: " USEPATHROOT
 if [ -z $USEPATHROOT ] || [ $USEPATHROOT == "y" ] || [ $USEPATHROOT == "Y" ]; then
 	echo "declare -r PFPPATHROOT=1 &>/dev/null" >>/etc/profileplus/config
 else
 	echo "declare -r PFPPATHROOT=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
-read -e -t 10 -n 1 -p "Append user path with \$HOME/bin? [Y/n]: " USEPATHUSER
+read -e -t 30 -p "Append user path with \$HOME/bin? [Y/n]: " USEPATHUSER
 if [ -z $USEPATHUSER ] || [ $USEPATHUSER == "y" ] || [ $USEPATHUSER == "Y" ]; then
 	echo "declare -r PFPPATHUSER=1 &>/dev/null" >>/etc/profileplus/config
 else
 	echo "declare -r PFPPATHUSER=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
-read -e -t 10 -n 1 -p "Lock the PATH variable? [y/N]: " USEPATHLOCK
+read -e -t 30 -p "Lock the PATH variable? [y/N]: " USEPATHLOCK
 if [ -z $USEPATHLOCK ] || [ $USEPATHLOCK == "n" ] || [ $USEPATHLOCK == "N" ]; then
 	echo "declare -r PFPPATHLOCK=0 &>/dev/null" >>/etc/profileplus/config
 else
 	echo "declare -r PFPPATHLOCK=1 &>/dev/null" >>/etc/profileplus/config
 fi
 
-read -e -t 10 -n 1 -p "Protect user's shell config files? [Y/n]: " USEPUSCF
+read -e -t 30 -p "Protect user's shell config files? [Y/n]: " USEPUSCF
 if [ -z $USEPUSCF ] || [ $USEPUSCF == "y" ] || [ $USEPUSCF == "Y" ]; then
 	echo "declare -r PFPPUSCF=1 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/protectshellconfigs.sh /etc/profileplus/sbin/protectshellconfigs
@@ -112,7 +112,7 @@ else
 	echo "declare -r PFPPUSCF=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
-read -e -t 10 -n 1 -p "Use the restricted logging module? [Y/n]: " USERLOG
+read -e -t 30 -p "Use the restricted logging module? [Y/n]: " USERLOG
 if [ -z $USERLOG ] || [ $USERLOG == "y" ] || [ $USERLOG == "Y" ]; then
 	echo "declare -r PFPRLOG=1 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPRLOGDIR=/var/history &>/dev/null" >>/etc/profileplus/config
@@ -128,14 +128,14 @@ else
 	echo "declare -r PFPRLOG=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
-read -e -t 10 -n 1 -p "Use the shopt module? [Y/n]: " USESHOPT
+read -e -t 30 -p "Use the shopt module? [Y/n]: " USESHOPT
 if [ -z $USESHOPT ] || [ $USESHOPT == "y" ] || [ $USESHOPT == "Y" ]; then
 	echo "declare -r PFPSHOPT=1 &>/dev/null" >>/etc/profileplus/config
 else
 	echo "declare -r PFPSHOPT=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
-read -e -t 10 -n 1 -p "Use the os-update module? [Y/n]: " USESHOPT
+read -e -t 30 -p "Use the os-update module? [Y/n]: " USESHOPT
 if [ -z $USESHOPT ] || [ $USESHOPT == "y" ] || [ $USESHOPT == "Y" ]; then
 	echo "declare -r PFPOSUPDATE=1 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/os-update.sh /etc/profileplus/sbin/os-update
@@ -143,10 +143,10 @@ else
 	echo "declare -r PFPOSUPDATE=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
-read -e -t 10 -n 1 -p "Use the prompt module? [Y/n]: " USEPROMPT
+read -e -t 30 -p "Use the prompt module? [Y/n]: " USEPROMPT
 if [ -z $USEPROMPT ] || [ $USEPROMPT == "y" ] || [ $USEPROMPT == "Y" ]; then
 	showprompts
-	read -e -t 10 -n 1 -p "Default user prompt (1-29) [1]: " USEPROMPT
+	read -e -t 30 -p "Default user prompt (1-29) [1]: " USEPROMPT
 	if [ -z $USEPROMPT ]; then
 		echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
 	fi
@@ -158,7 +158,7 @@ if [ -z $USEPROMPT ] || [ $USEPROMPT == "y" ] || [ $USEPROMPT == "Y" ]; then
 			echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
 			;;
 	esac
-	read -e -t 10 -n 1 -p "Use termbar module? [Y/n]: " USETERMBAR
+	read -e -t 30 -p "Use termbar module? [Y/n]: " USETERMBAR
 	if [ -z $USETERMBAR ] || [ $USETERMBAR == "y" ] || [ $USETERMBAR == "Y" ]; then
 		echo "declare -r PFPPROMPTTERMBAR=1 &>/dev/null" >>/etc/profileplus/config
 	else
