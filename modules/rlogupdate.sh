@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#    Copyright (C) 2016 Eric Siskonen
+#    Copyright (C) 2020 Blacklabs.io
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,36 +18,22 @@
 #
 #    GNU/GPL v2 license can be found here: http://www.gnu.org/licenses/old-licenses/lgpl-2.0.txt
 #
-# profileplus version 1.0
+# profileplus version 2.0
 
-if [ "$EUID" != "0" ]; then
-	echo "you must be root.. exiting."
-
-	exit 1
+if [ -f /etc/profileplus/modules/utilities.sh ]; then
+        source /etc/profileplus/modules/utilities.sh
+else
+        echo "ERROR: /etc/profileplus/modules/utilities.sh not found or readable"
+        exit 1
 fi
 
-GENTOOUPDATEBINDEPS='mkdir chown chmod wc cat sed awk touch'
-for dependencybin in $GENTOOUPDATEBINDEPS; do
-	CHECKDEPBIN=`which $dependencybin 2>/dev/null`
-	if [ "$?" != "0" ]; then
-		echo "ERROR: Cannot find a required dependency: $dependencybin"
-
-		exit 2
-	fi
-
-	if ! [ -x $CHECKDEPBIN ]; then
-		echo "ERROR: Cannot execute required dependency: $CHECKDEPBIN"
-
-		exit 3
-	fi
-done
+checkeuidroot
+checkdependency 'mkdir' 'chown' 'chmod' 'wc' 'cat' 'sed' 'awk' 'touch'
 
 PFPRLOGDIR=$(grep PFPRLOGDIR /etc/profileplus/config|awk -F'=' '{ print $2 }'|awk -F\& '{ print $1 }'|xargs)
 
 if [ -z "$PFPRLOGDIR" ]; then
-	echo "ERROR: rlog directory variable not set... are you using profileplus?"
-
-	exit 4
+	errordie 'rlog directory variable not set'
 fi
 
 if ! [ -d "$PFPRLOGDIR" ]; then

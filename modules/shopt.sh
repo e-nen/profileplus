@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2016 Eric Siskonen
+#    Copyright (C) 2020 Blacklabs.io
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #
 #    GNU/GPL v2 license can be found here: http://www.gnu.org/licenses/old-licenses/lgpl-2.0.txt
 #
-# profileplus version 1.0
+# profileplus version 2.0
 
 # there are some missing shopt's that should be added
 

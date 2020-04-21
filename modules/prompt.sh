@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2016 Eric Siskonen
+#    Copyright (C) 2020 Blacklabs.io
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,46 +17,21 @@
 #
 #    GNU/GPL v2 license can be found here: http://www.gnu.org/licenses/old-licenses/lgpl-2.0.txt
 #
-# profileplus version 1.0
+# profileplus version 2.0
 
-# put original colors back and scrap "official" color codes... they suck and break everything
-# add a few more prompts
-# add a built in function to print out the available prompts?
-
-declare -a PCC
-PCC[0]="\[\033[0;30m\]" # Black - Regular
-PCC[1]="\[\033[0;31m\]" # Red
-PCC[2]="\[\033[0;32m\]" # Green
-PCC[3]="\[\033[0;33m\]" # Yellow
-PCC[4]="\[\033[0;34m\]" # Blue
-PCC[5]="\[\033[0;35m\]" # Purple
-PCC[6]="\[\033[0;36m\]" # Cyan
-PCC[7]='\e[0;37m' # White
-PCC[8]="\[\033[1;30m\]" # Black - Bold
-PCC[9]="\[\033[1;31m\]" # Red
-PCC[10]="\[\033[1;32m\]" # Green
-PCC[11]="\[\033[1;33m\]" # Yellow
-PCC[12]="\[\033[1;34m\]" # Blue
-PCC[13]="\[\033[1;35m\]" # Purple
-PCC[14]="\[\033[1;36m\]" # Cyan
-PCC[15]="\[\033[1;37m\]" # White
-PCC[16]='\e[4;30m' # Black - Underline
-PCC[17]='\e[4;31m' # Red
-PCC[18]='\e[4;32m' # Green
-PCC[19]='\e[4;33m' # Yellow
-PCC[20]='\e[4;34m' # Blue
-PCC[21]='\e[4;35m' # Purple
-PCC[22]='\e[4;36m' # Cyan
-PCC[23]='\e[4;37m' # White
-PCC[24]='\e[40m'   # Black - Background
-PCC[25]='\e[41m'   # Red
-PCC[26]='\e[42m'   # Green
-PCC[27]='\e[43m'   # Yellow
-PCC[28]='\e[44m'   # Blue
-PCC[29]='\e[45m'   # Purple
-PCC[30]='\e[46m'   # Cyan
-PCC[31]='\e[47m'   # White
-PCC[32]="\[\033[0;26m\]"
+termbar()
+{
+	case $TERM in
+		xterm*|rxvt*|Eterm*|eterm*)
+			export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD} - $(date)\007"'
+			return 0
+			;;
+		*)
+			return 1
+			;;
+	esac
+	return 0
+}
 
 prompt()
 {
@@ -94,9 +69,11 @@ prompt()
 				29) PS1="${PCC[5]}\u ${PCC[12]}\w ${PCC[13]}\\$ ${PCC[32]}";;
 			esac
 			export PS1
+			return 0
 			;;
 		*)
 			return 1
 			;;
 	esac
+	return 0
 }

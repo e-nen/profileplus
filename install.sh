@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2016 Eric Siskonen
+#    Copyright (C) 2020 Blacklabs.io
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,31 +17,18 @@
 #
 #    GNU/GPL v2 license can be found here: http://www.gnu.org/old-licenses/lgpl-2.0.txt
 #
-# profileplus version 1.0
+# profileplus version 2.0
 
 # needs some extra sanity checks
-
-PFPINSTALLBINDEPS='mkdir cp chown chmod'
-for dependencybin in $PFPINSTALLBINDEPS; do
-	CHECKDEPBIN=`which $dependencybin 2>/dev/null`
-	if [ "$?" != "0" ]; then
-		echo "ERROR: Cannot find a required dependency: $dependencybin"
-
-		exit 1
-	fi
-
-	if ! [ -x "$CHECKDEPBIN" ]; then
-		echo "ERROR: Cannot execute required dependency: $CHECKDEPBIN"
-
-		exit 2
-	fi
-done
-
-if [ "$EUID" != "0" ]; then
-	echo "ERROR: root user privileges required"
-
-	exit 3
+if [ -f $PWD/modules/utilities.sh ]; then
+        source $PWD/modules/utilities.sh
+else
+        echo "ERROR: $PWD/modules/utilities.sh not found or readable"
+        exit 1
 fi
+
+checkeuidroot
+checkdependency 'mkdir' 'cp' 'chown' 'chmod'
 
 if [ -d /etc/profileplus ]; then
 	while true
@@ -69,26 +56,19 @@ if [ -d /etc/profileplus ]; then
 	done
 fi
 
-# make local install possible later
-PFPMOI="global"
-# make this configurable later
-PFPINSTDIR="/etc/profileplus"
+echo "INSTALL: creating /etc/profileplus"
+mkdir /etc/profileplus
+cp -r configure.sh launcher.sh uninstall.sh LICENSE modules /etc/profileplus/
+chown -R root:root /etc/profileplus
 
-echo "INSTALL: creating $PFPINSTDIR"
-mkdir $PFPINSTDIR
-cp -r configure.sh launcher.sh uninstall.sh update.sh LICENSE modules $PFPINSTDIR/
-mkdir $PFPINSTDIR/bin
-mkdir $PFPINSTDIR/sbin
-chown -R root:root $PFPINSTDIR
-chmod 700 $PFPINSTDIR/sbin
-chmod 755 $PFPINSTDIR/bin
 if [ -d /etc/profile.d ]; then
-	ln -s $PFPINSTDIR/launcher.sh /etc/profile.d/profileplus-launcher.sh
+	ln -s /etc/profileplus/launcher.sh /etc/profile.d/profileplus-launcher.sh
 else
-	echo "source $PFPINSTDIR/launcher.sh" >>/etc/profile
+	echo "source /etc/profileplus/launcher.sh" >>/etc/profile
 fi
+
 echo "INSTALL: completed successfully"
 
-/etc/profileplus/configure.sh
+/etc/profileplus/configure.sh -1
 
 exit 0

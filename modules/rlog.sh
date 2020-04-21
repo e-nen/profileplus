@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2016 Eric Siskonen
+#    Copyright (C) 2020 Blacklabs.io
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,60 +17,22 @@
 #
 #    GNU/GPL v2 license can be found here: http://www.gnu.org/licenses/old-licenses/lgpl-2.0.txt
 #
-# profileplus version 1.0
+# profileplus version 2.0
 
-# test ksh HISTTIMEFORMAT
-
-if [ -x `which uname` ]; then
-	case "`uname`" in
-		Linux)
-			if [ -x "`which whoami`" ]; then
-				SUSER=`whoami`
-			else
-				SUSER=$EUID
-			fi
-			;;
-		*BSD)
-			if [ -x "`which whoami`" ]; then
-				SUSER=`whoami`
-			else
-				SUSER=$EUID
-			fi
-			;;
-		SunOS)
-			if [ -x /usr/ucb/whoami ]; then
-				SUSER=`/usr/ucb/whoami`
-			else
-				SUSER=$EUID
-			fi
-			;;
-		*)
-			SUSER=$EUID
-			;;
-	esac
-else
-	echo "ERROR: uname is missing..."
-
-	return 1
-fi
+checkdependency 'whoami'
+SUSER=$(whoami)
 
 case $SHELL in
-# add a special case for /bin/sh with a check to make sure its bash
-	/bin/sh|*/bash|*/rbash)
+	*/bash|*/rbash)
 		declare -r HISTFILE="$PFPRLOGDIR/$SUSER" &>/dev/null
 		declare -r HISTFILESIZE=$PFPRLOGSIZE &>/dev/null
 		declare -r HISTSIZE=$PFPRLOGLINES &>/dev/null
 		declare -r HISTTIMEFORMAT="%d/%m/%y %T " &>/dev/null
-		;;
-	*/ksh)
-		typeset -r HISTFILE="$PFPRLOGDIR/$SUSER" &>/dev/null
-		typeset -r HISTFILESIZE=$PFPRLOGSIZE &>/dev/null
-		typeset -r HISTSIZE=$PFPRLOGLINES &>/dev/null
-		typeset -r HISTTIMEFORMAT="%d/%m/%y %T " &>/dev/null
+		declare -r HISTCONTROL='' &>/dev/null
+		declare -r HISTIGNORE='' &>/dev/null
 		;;
 	*)
 		echo "ERROR: your shell is not compatible."
-
-		return 911
+		return 1
 		;;
 esac

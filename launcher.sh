@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2016 Eric Siskonen
+#    Copyright (C) 2020 Blacklabs.io
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,27 +17,36 @@
 #
 #    GNU/GPL v2 license can be found here: http://www.gnu.org/licenses/old-licenses/lgpl-2.0.txt
 #
-# profileplus version 1.0
+# profileplus version 2.0
+
+#[ -z "$PS1" ] && return # this would probably work fine but i want to actually check for the interactive flag so...
+case $- in
+	*i*)
+		;;
+	*)
+		return
+		;;
+esac
+
+if [ -f /etc/profileplus/modules/utilities.sh ]; then
+	source /etc/profileplus/modules/utilities.sh
+else
+	errordie '/etc/profileplus/modules/utilities.sh not found or readable'
+fi
 
 if [ -f /etc/profileplus/config ]; then
 # this needs to check the config perms and env
 	source /etc/profileplus/config
 else
-	echo "ERROR: /etc/profileplus/config not found or readable"
-
-	exit 1
-fi
-
-if [ -z $PFPINSTDIR ]; then
-	echo "ERROR: YOUR ENVIRONMENT IS NOT PROPERLY CONFIGURED"
-
-	exit 2
+	errorfail '/etc/profileplus/config not found or readable... creating default config'
+	/etc/profileplus/configure.sh -1
+	source /etc/profileplus/config
 fi
 
 if [ "$EUID" == "0" ]; then
-	export PATH=$PATH:$PFPINSTDIR/sbin:$PFPINSTDIR/bin &>/dev/null
+	export PATH=$PATH:/etc/profileplus/sbin:/etc/profileplus/bin &>/dev/null
 else
-	export PATH=$PATH:$PFPINSTDIR/bin &>/dev/null
+	export PATH=$PATH:/etc/profileplus/bin &>/dev/null
 fi
 
 if [ "$PFPPATHROOT" == "1" ] && [ "$EUID" == "0" ]; then
@@ -46,7 +55,7 @@ if [ "$PFPPATHROOT" == "1" ] && [ "$EUID" == "0" ]; then
 		mkdir /root/bin
 		chmod 700 /root/bin
 	fi
-	export PATH=/root/bin:$PATH &>/dev/null
+	export PATH=$PATH:/root/bin &>/dev/null
 fi
 
 if [ "$PFPPATHUSER" == "1" ] && [ "$EUID" != "0" ]; then
@@ -55,7 +64,7 @@ if [ "$PFPPATHUSER" == "1" ] && [ "$EUID" != "0" ]; then
 		mkdir $HOME/bin
 		chmod 700 $HOME/bin
 	fi
-	export PATH=$HOME/bin:$PATH &>/dev/null
+	export PATH=$PATH:$HOME/bin &>/dev/null
 fi
 
 if [ "$PFPPATHLOCK" == "1" ]; then
@@ -63,29 +72,31 @@ if [ "$PFPPATHLOCK" == "1" ]; then
 fi
 
 if [ "$PFPPUSCF" == "1" ] && [ "$EUID" == "0" ]; then
-	$PFPINSTDIR/sbin/protectshellconfigs
-fi
-
-if [ "$PFPSOLARISPRTDIAG" == "1" ] && [ "$EUID" == "0" ]; then
-	$PFPINSTDIR/sbin/solarisprtdiag
+	if [ -x /etc/profileplus/sbin/protectshellconfigs ]; then
+		/etc/profileplus/sbin/protectshellconfigs
+	else
+		warnfail 'protect shell configs enabled but /etc/profileplus/sbin/protectshellconfigs not executable... skipping'
+	fi
 fi
 
 if [ "$PFPRLOG" == "1" ]; then
-	source $PFPINSTDIR/modules/rlog.sh
+	source /etc/profileplus/modules/rlog.sh
 fi
 
 if [ "$PFPSHOPT" == "1" ]; then
-	source $PFPINSTDIR/modules/shopt.sh
+	source /etc/profileplus/modules/shopt.sh
 fi
 
 if ! [ "$PFPPROMPT" == "0" ]; then
-	source $PFPINSTDIR/modules/prompt.sh
+	source /etc/profileplus/modules/prompt.sh
 	prompt
 	if [ "$PFPPROMPTTERMBAR" == "1" ]; then
-		source $PFPINSTDIR/modules/termbar.sh
 		termbar
 	fi
 fi
 
-# loadbar
-# clock
+if [ -f /etc/profileplus/modules/aliases.sh ]; then
+	source /etc/profileplus/modules/aliases.sh
+else
+	errordie '/etc/profileplus/modules/aliases.sh not found or readable'
+fi

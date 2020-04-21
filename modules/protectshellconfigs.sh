@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#    Copyright (C) 2016 Eric Siskonen
+#    Copyright (C) 2020 Blacklabs.io
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,27 +18,12 @@
 #
 #    GNU/GPL v2 license can be found here: http://www.gnu.org/licenses/old-licenses/lgpl-2.0.txt
 #
-# profileplus version 1.0
+# profileplus version 2.0
 
-if [ "$EUID" != "0" ]; then
-	echo "ERROR: Need to be root"
+if [ $EUID != "0" ]; then
+	echo "ERROR: root user privileges required"
+        exit 1
 fi
-
-CHECKSUIDBINDEPS='wc awk cat sed id grep stat chown chmod cp logger'
-for dependencybin in $CHECKSUIDBINDEPS; do
-	CHECKDEPBIN=`which $dependencybin 2>/dev/null`
-	if [ "$?" != "0" ]; then
-		echo "ERROR: Cannot find a required dependency: $dependencybin"
-
-		exit 1
-	fi
-
-	if ! [ -x $CHECKDEPBIN ]; then
-		echo "ERROR: Cannot execute required dependency: $CHECKDEPBIN"
-
-		exit 2
-	fi
-done
 
 if [ -e "/etc/skel/.bashrc" ]; then
 	if [ -z "`grep "source /etc/profile" /etc/skel/.bashrc`" ]; then
@@ -142,11 +127,6 @@ do
 			else
 				echo "ERROR: $CURUSER home directory $CURHOME does not exist"|logger
 			fi
-			;;
-		*/ksh)
-			echo "ERROR: $CURUSER korn shell is not yet supported!"|logger
-
-			exit 3
 			;;
 		*)
 			;;
