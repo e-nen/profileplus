@@ -48,9 +48,11 @@ chown root:root /etc/profileplus/config
 chmod 644 /etc/profileplus/config
 echo "CONFIG: creating /etc/profileplus/bin"
 mkdir /etc/profileplus/bin
+chown root:root /etc/profileplus/bin
 chmod 755 /etc/profileplus/bin
 echo "CONFIG: creating /etc/profileplus/sbin"
 mkdir /etc/profileplus/sbin
+chown root:root /etc/profileplus/sbin
 chmod 700 /etc/profileplus/sbin
 
 echo -e "# profileplus version 2.0\n" >/etc/profileplus/config
@@ -72,8 +74,8 @@ if [ $1 == "-1" ]; then
 	crontab /tmp/rlog-cron
 	rm /tmp/rlog-cron
 	echo "declare -r PFPSHOPT=1 &>/dev/null" >>/etc/profileplus/config
-	source /etc/profileplus/config
-	source /etc/profileplus/modules/shopt.sh
+	echo "declare -r PFPOSUPDATE=1 &>/dev/null" >>/etc/profileplus/config
+	ln -s /etc/profileplus/modules/os-update.sh /etc/profileplus/sbin/os-update
 	echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPPROMPTTERMBAR=1 &>/dev/null" >>/etc/profileplus/config
 	source /etc/profile.d/profileplus-launcher.sh
@@ -128,10 +130,16 @@ fi
 read -e -t 10 -n 1 -p "Use the shopt module? [Y/n]: " USESHOPT
 if [ -z $USESHOPT ] || [ $USESHOPT == "y" ] || [ $USESHOPT == "Y" ]; then
 	echo "declare -r PFPSHOPT=1 &>/dev/null" >>/etc/profileplus/config
-	source /etc/profileplus/config
-	source /etc/profileplus/modules/shopt.sh
 else
 	echo "declare -r PFPSHOPT=0 &>/dev/null" >>/etc/profileplus/config
+fi
+
+read -e -t 10 -n 1 -p "Use the os-update module? [Y/n]: " USESHOPT
+if [ -z $USESHOPT ] || [ $USESHOPT == "y" ] || [ $USESHOPT == "Y" ]; then
+	echo "declare -r PFPOSUPDATE=1 &>/dev/null" >>/etc/profileplus/config
+	ln -s /etc/profileplus/modules/os-update.sh /etc/profileplus/sbin/os-update
+else
+	echo "declare -r PFPOSUPDATE=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
 read -e -t 10 -n 1 -p "Use the prompt module? [Y/n]: " USEPROMPT

@@ -21,7 +21,6 @@
 
 # this needs a couple more sanity checks
 # clean up skel
-# remove crontabs
 
 if [ -d /etc/profileplus ]; then
 	if [ "$EUID" != "0" ]; then

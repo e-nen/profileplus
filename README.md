@@ -42,3 +42,6 @@ The rlog module provides a very simple but useful restricted shell logging envir
 
 ### shopt.sh
 A simple script to set shell options (shopt) that are commonly required by many of the other profileplus modules.
+
+### os-update.sh
+A script to perform OS updates on many different Linux distributions.
