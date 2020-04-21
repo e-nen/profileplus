@@ -28,10 +28,11 @@ else
 fi
 
 checkeuidroot
+checkdependency 'grep' 'awk'
 
 OSVAR=0
 if [ -f /etc/os-release ]; then
-    if [ $(grep ID_LIKE /etc/os-release) == "debian" ]; then
+    if [ $(grep ID_LIKE /etc/os-release|awk -F= '{print $2}') == "debian" ]; then
         OSVAR=1
     fi
 elif [ -f /etc/redhat-release ]; then
@@ -47,7 +48,7 @@ else
 fi
 
 if [ $OSVAR = 1 ]; then
-    checkdependency 'apt' 'tail' 'grep' 'awk' 'updatedb' 'checkrestart'
+    checkdependency 'apt' 'tail' 'updatedb' 'checkrestart'
 elif [ $OSVAR = 2 ]; then
 # do extra check to see which version of redhat to support dnf
 #   checkdependency 'dnf'
