@@ -153,15 +153,16 @@ if [ -z $USEPROMPT ] || [ $USEPROMPT == "y" ] || [ $USEPROMPT == "Y" ]; then
 	read -e -t 30 -p "Default user prompt (1-29) [1]: " USEPROMPT
 	if [ -z $USEPROMPT ]; then
 		echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
+	else
+		case $USEPROMPT in
+			1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29)
+				echo "declare -r PFPPROMPT=$USEPROMPT &>/dev/null" >>/etc/profileplus/config
+				;;
+			*)
+				echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
+				;;
+		esac
 	fi
-	case $USEPROMPT in
-		1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29)
-			echo "declare -r PFPPROMPT=$USEPROMPT &>/dev/null" >>/etc/profileplus/config
-			;;
-		*)
-			echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
-			;;
-	esac
 	read -e -t 30 -p "Use termbar module? [Y/n]: " USETERMBAR
 	if [ -z $USETERMBAR ] || [ $USETERMBAR == "y" ] || [ $USETERMBAR == "Y" ]; then
 		echo "declare -r PFPPROMPTTERMBAR=1 &>/dev/null" >>/etc/profileplus/config
