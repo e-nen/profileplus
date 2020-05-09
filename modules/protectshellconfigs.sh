@@ -26,39 +26,26 @@ if [ $EUID != "0" ]; then
 fi
 
 if [ -e "/etc/skel/.bashrc" ]; then
-	if [ -z "`grep "source /etc/profile" /etc/skel/.bashrc`" ]; then
-		echo "source /etc/profile" >>/etc/skel/.bashrc
-	fi
-
-	if [ "`stat -c %a /etc/skel/.bashrc`" != "644" ]; then
-		chmod 644 /etc/skel/.bashrc
-	fi
-else
-	touch /etc/skel/.bashrc
-	chown root:root /etc/skel/.bashrc
-	chmod 644 /etc/skel/.bashrc
-	echo "source /etc/profile" >>/etc/skel/.bashrc
+	mv /etc/skel/.bashrc /etc/bashrc.skel.original
 fi
+touch /etc/skel/.bashrc
+echo 'source /etc/profile' >>/etc/skel/.bashrc
+chown root:root /etc/skel/.bashrc
+chmod 644 /etc/skel/.bashrc
 
 if [ -e "/etc/skel/.bash_profile" ]; then
-	if [ "`stat -c %a /etc/skel/.bash_profile`" != "644" ]; then
-		chmod 644 /etc/skel/.bash_profile
-	fi
-else
-	touch /etc/skel/.bash_profile
-	chown root:root /etc/skel/.bash_profile
-	chmod 644 /etc/skel/.bash_profile
+	mv /etc/skel/.bash_profile /etc/bash_profile.skel.original
 fi
+touch /etc/skel/.bash_profile
+chown root:root /etc/skel/.bash_profile
+chmod 644 /etc/skel/.bash_profile
 
-if [ -e "/etc/skel/.profile" ]; then
-	if [ "`stat -c %a /etc/skel/.profile`" != "644" ]; then
-		chmod 644 /etc/skel/.profile
-	fi
-else
-	touch /etc/skel/.profile
-	chown root:root /etc/skel/.profile
-	chmod 644 /etc/skel/.profile
+if [ -e "/etc/skel/.bashrc" ]; then
+	mv /etc/skel/.profile /etc/profile.skel.original
 fi
+touch /etc/skel/.profile
+chown root:root /etc/skel/.profile
+chmod 644 /etc/skel/.profile
 
 PASSWDLEN=`wc -l /etc/passwd|awk '{ print $1 }'`
 FORLIM=$(($PASSWDLEN+1))
@@ -80,50 +67,25 @@ do
 		/bin/sh|*/bash|*/rbash)
 			if [ -d "$CURHOME" ]; then
 				if [ -e "$CURHOME/.bashrc" ]; then
-					if [ -z "`grep "source /etc/profile" $CURHOME/.bashrc`" ]; then
-						echo "source /etc/profile" >>$CURHOME/.bashrc
-					fi
-
-					if [ "`stat -c %U:%G $CURHOME/.bashrc`" != "$CURUSER:$CURGROUP" ]; then
-						chown root:root $CURHOME/.bashrc
-					fi
-
-					if [ "`stat -c %a $CURHOME/.bashrc`" != "644" ]; then
-						chmod 644 $CURHOME/.bashrc
-					fi
-				else
-					cp /etc/skel/.bashrc $CURHOME/.bashrc
-					chown $CURUSER:$CURGROUP $CURHOME/.bashrc
-					chmod 644 $CURHOME/.bashrc
+					rm "$CURHOME/.bashrc"
+					cp /etc/skel/.bashrc "$CURHOME/.bashrc"
 				fi
+				chown root:root "$CURHOME/.bashrc"
+				chmod 644 "$CURHOME/.bashrc"
 
 				if [ -e "$CURHOME/.bash_profile" ]; then
-					if [ "`stat -c %U:%G $CURHOME/.bash_profile`" != "$CURUSER:$CURGROUP" ]; then
-						chown root:root $CURHOME/.bash_profile
-					fi
-
-					if [ "`stat -c %a $CURHOME/.bash_profile`" != "644" ]; then
-						chmod 644 $CURHOME/.bash_profile
-					fi
-				else
-					cp /etc/skel/.bash_profile $CURHOME/.bash_profile
-					chown $CURUSER:$CURGROUP $CURHOME/.bash_profile
-					chmod 644 $CURHOME/.bash_profile
+					rm "$CURHOME/.bash_profile"
+					cp /etc/skel/.bash_profile "$CURHOME/.bash_profile"
 				fi
+				chown root:root "$CURHOME/.bash_profile"
+				chmod 644 "$CURHOME/.bash_profile"
 
 				if [ -e "$CURHOME/.profile" ]; then
-					if [ "`stat -c %U:%G $CURHOME/.profile`" != "$CURUSER:$CURGROUP" ]; then
-						chown root:root $CURHOME/.profile
-					fi
-
-					if [ "`stat -c %a $CURHOME/.profile`" != "644" ]; then
-						chmod 644 $CURHOME/.profile
-					fi
-				else
-					cp /etc/skel/.profile $CURHOME/.profile
-					chown $CURUSER:$CURGROUP $CURHOME/.profile
-					chmod 644 $CURHOME/.profile
+					rm "$CURHOME/.profile"
+					cp /etc/skel/.profile "$CURHOME/.profile"
 				fi
+				chown root:root "$CURHOME/.profile"
+				chmod 644 "$CURHOME/.profile"
 			else
 				echo "ERROR: $CURUSER home directory $CURHOME does not exist"|logger
 			fi
