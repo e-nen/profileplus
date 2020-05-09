@@ -174,4 +174,4 @@ else
 	echo "declare -r PFPPROMPTTERMBAR=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
-source /etc/profile.d/profileplus-launcher.sh
+. /etc/profile.d/profileplus-launcher.sh

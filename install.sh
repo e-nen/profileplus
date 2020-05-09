@@ -71,4 +71,4 @@ fi
 echo "INSTALL: completed successfully"
 
 /etc/profileplus/configure.sh -1
-source /etc/profileplus/launcher.sh
+. /etc/profileplus/launcher.sh
