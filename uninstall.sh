@@ -23,11 +23,12 @@
 # this needs a couple more sanity checks
 # clean up skel
 
+if [ "$EUID" != "0" ]; then
+	echo "ERROR: root user privileges required"
+	exit 1
+fi
+
 if [ -d /etc/profileplus ]; then
-	if [ "$EUID" != "0" ]; then
-		echo "ERROR: root user privileges required"
-		exit 1
-	fi
 	echo ">>> deleting /etc/profileplus"
 	rm -rf /etc/profileplus
 else
@@ -41,18 +42,19 @@ fi
 
 if [ -L /etc/profile.d/profileplus-launcher.sh ]; then
 	rm /etc/profile.d/profileplus-launcher.sh
-elif [ -n "`grep 'source /etc/profileplus/launcher.sh' /etc/profile`" ]; then
+fi
+
+if [ -n "`grep 'source /etc/profileplus/launcher.sh' /etc/profile`" ]; then
 	echo ">>> removing launcher.sh from /etc/profile"
 	sed -i '/source \/etc\/profileplus\/launcher.sh/d' /etc/profile
-else
-	echo "ERROR: could not find installed launcher.sh (you may have to remove this manually)"
-	exit 1
 fi
+
+# remove any launchers or /etc/profile sourcing from user bashrc's
+
+# replace skel configs with the originals
 
 crontab -l|grep -v '/etc/profileplus/sbin/rlogupdate' >/tmp/ppuninstall-cron
 crontab /tmp/ppuninstall-cron
 rm /tmp/ppuninstall-cron
 
 echo ">>> Uninstall successful"
-
-exit 0

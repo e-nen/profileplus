@@ -175,5 +175,3 @@ else
 fi
 
 source /etc/profile.d/profileplus-launcher.sh
-
-exit 0
