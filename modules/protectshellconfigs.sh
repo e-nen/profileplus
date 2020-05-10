@@ -25,7 +25,7 @@ if [ $EUID != "0" ]; then
         exit 1
 fi
 
-if [ -f "/etc/skel/.bashrc" ] && [ "`stat -c %s /etc/skel/.bashrc`" -ne 20 ] && [ -n "`grep 'source /etc/profile' /etc/skel/.bashrc`" ]; then
+if [ -f "/etc/skel/.bashrc" ] && [ "`stat -c %s /etc/skel/.bashrc`" -ne 20 ] && [ -z "`grep 'source /etc/profile' /etc/skel/.bashrc`" ]; then
 	if ! [ -d /etc/skel-originals ]; then
 		mkdir /etc/skel-originals
 		chown root:root /etc/skel-originals
@@ -80,7 +80,7 @@ do
 	case $CURSHELL in
 		/bin/sh|*/bash|*/rbash)
 			if [ -d "$CURHOME" ]; then
-				if [ -f "$CURHOME/.bashrc" ] && [ "`stat -c %s $CURHOME/.bashrc`" -ne 20 ] && [ -n "`grep 'source /etc/profile' $CURHOME/.bashrc`" ]; then
+				if [ -f "$CURHOME/.bashrc" ] && [ "`stat -c %s $CURHOME/.bashrc`" -ne 20 ] && [ -z "`grep 'source /etc/profile' $CURHOME/.bashrc`" ]; then
 					rm -f "$CURHOME/.bashrc" &>/dev/null
 					cp /etc/skel/.bashrc "$CURHOME/.bashrc" &>/dev/null
 					chown root:root "$CURHOME/.bashrc" &>/dev/null
