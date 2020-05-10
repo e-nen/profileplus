@@ -20,9 +20,6 @@
 #
 # profileplus version 2.0
 
-# this needs a couple more sanity checks
-# clean up skel
-
 if [ "$EUID" != "0" ]; then
 	echo "ERROR: root user privileges required"
 	exit 1
@@ -48,8 +45,6 @@ if [ -n "`grep 'source /etc/profileplus/launcher.sh' /etc/profile`" ]; then
 	echo ">>> removing launcher.sh from /etc/profile"
 	sed -i '/source \/etc\/profileplus\/launcher.sh/d' /etc/profile
 fi
-
-# remove any launchers or /etc/profile sourcing from user bashrc's
 
 # replace skel configs with the originals
 
