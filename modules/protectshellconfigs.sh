@@ -66,24 +66,18 @@ do
 	case $CURSHELL in
 		/bin/sh|*/bash|*/rbash)
 			if [ -d "$CURHOME" ]; then
-				if [ -e "$CURHOME/.bashrc" ]; then
-					rm "$CURHOME/.bashrc"
-					cp /etc/skel/.bashrc "$CURHOME/.bashrc"
-				fi
+				rm -f "$CURHOME/.bashrc"
+				cp /etc/skel/.bashrc "$CURHOME/.bashrc"
 				chown root:root "$CURHOME/.bashrc"
 				chmod 644 "$CURHOME/.bashrc"
 
-				if [ -e "$CURHOME/.bash_profile" ]; then
-					rm "$CURHOME/.bash_profile"
-					cp /etc/skel/.bash_profile "$CURHOME/.bash_profile"
-				fi
+				rm -f "$CURHOME/.bash_profile"
+				cp /etc/skel/.bash_profile "$CURHOME/.bash_profile"
 				chown root:root "$CURHOME/.bash_profile"
 				chmod 644 "$CURHOME/.bash_profile"
 
-				if [ -e "$CURHOME/.profile" ]; then
-					rm "$CURHOME/.profile"
-					cp /etc/skel/.profile "$CURHOME/.profile"
-				fi
+				rm -f "$CURHOME/.profile"
+				cp /etc/skel/.profile "$CURHOME/.profile"
 				chown root:root "$CURHOME/.profile"
 				chmod 644 "$CURHOME/.profile"
 			else
