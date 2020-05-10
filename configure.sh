@@ -175,3 +175,4 @@ else
 fi
 
 . /etc/profile.d/profileplus-launcher.sh
+/etc/profileplus/sbin/protectshellconfigs
