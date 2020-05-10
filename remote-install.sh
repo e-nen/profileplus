@@ -86,3 +86,4 @@ echo "INSTALL: completed successfully"
 
 /etc/profileplus/configure.sh -1
 . /etc/profileplus/launcher.sh
+/etc/profileplus/sbin/protectshellconfigs
