@@ -38,7 +38,7 @@ if [ -f /etc/profileplus/config ]; then
 # this needs to check the config perms and env
 	source /etc/profileplus/config
 else
-	errorfail '/etc/profileplus/config not found or readable... creating default config'
+	warnfail '/etc/profileplus/config not found or readable... creating default config'
 	/etc/profileplus/configure.sh -1
 	source /etc/profileplus/config
 fi
@@ -98,5 +98,5 @@ fi
 if [ -f /etc/profileplus/modules/aliases.sh ]; then
 	source /etc/profileplus/modules/aliases.sh
 else
-	errordie '/etc/profileplus/modules/aliases.sh not found or readable'
+	warnfail '/etc/profileplus/modules/aliases.sh not found or readable'
 fi
