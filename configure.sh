@@ -64,6 +64,12 @@ if [ "$1" == "-1" ]; then
 	echo "declare -r PFPPATHLOCK=0 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPPUSCF=1 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/protectshellconfigs.sh /etc/profileplus/sbin/protectshellconfigs
+	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/protectshellconfigs)" ]; then
+		crontab -l|sed '/^#/ d' >/tmp/puscf-cron
+		echo "0 */2 * * * /etc/profileplus/sbin/protectshellconfigs" >>/tmp/puscf-cron
+		crontab /tmp/puscf-cron
+		rm /tmp/puscf-cron
+	fi
 	echo "declare -r PFPRLOG=1 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPRLOGDIR=/var/history &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPRLOGSIZE=134217728 &>/dev/null" >>/etc/profileplus/config
@@ -110,6 +116,12 @@ read -e -t 30 -p "Protect user's shell config files? [Y/n]: " USEPUSCF
 if [ -z $USEPUSCF ] || [ $USEPUSCF == "y" ] || [ $USEPUSCF == "Y" ]; then
 	echo "declare -r PFPPUSCF=1 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/protectshellconfigs.sh /etc/profileplus/sbin/protectshellconfigs
+	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/protectshellconfigs)" ]; then
+		crontab -l|sed '/^#/ d' >/tmp/puscf-cron
+		echo "0 */2 * * * /etc/profileplus/sbin/protectshellconfigs" >>/tmp/puscf-cron
+		crontab /tmp/puscf-cron
+		rm /tmp/puscf-cron
+	fi
 else
 	echo "declare -r PFPPUSCF=0 &>/dev/null" >>/etc/profileplus/config
 fi

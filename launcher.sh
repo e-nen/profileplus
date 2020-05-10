@@ -31,7 +31,7 @@ esac
 if [ -f /etc/profileplus/modules/utilities.sh ]; then
 	source /etc/profileplus/modules/utilities.sh
 else
-	errordie '/etc/profileplus/modules/utilities.sh not found or readable'
+	errorfail '/etc/profileplus/modules/utilities.sh not found or readable'
 fi
 
 if [ -f /etc/profileplus/config ]; then
@@ -51,7 +51,6 @@ fi
 
 if [ "$PFPPATHROOT" == "1" ] && [ "$EUID" == "0" ]; then
 	if ! [ -d /root/bin ]; then
-		echo -e "\nCreating /root/bin\n"
 		mkdir /root/bin
 		chmod 700 /root/bin
 	fi
@@ -60,7 +59,6 @@ fi
 
 if [ "$PFPPATHUSER" == "1" ] && [ "$EUID" != "0" ]; then
 	if ! [ -d $HOME/bin ]; then
-		echo -e "\nCreating $HOME/bin\n"
 		mkdir $HOME/bin
 		chmod 700 $HOME/bin
 	fi
@@ -69,14 +67,6 @@ fi
 
 if [ "$PFPPATHLOCK" == "1" ]; then
 	declare -r PATH=$PATH &>/dev/null
-fi
-
-if [ "$PFPPUSCF" == "1" ] && [ "$EUID" == "0" ]; then
-	if [ -x /etc/profileplus/sbin/protectshellconfigs ]; then
-		/etc/profileplus/sbin/protectshellconfigs
-	else
-		warnfail 'protect shell configs enabled but /etc/profileplus/sbin/protectshellconfigs not executable... skipping'
-	fi
 fi
 
 if [ "$PFPRLOG" == "1" ]; then

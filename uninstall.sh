@@ -53,6 +53,9 @@ fi
 
 # replace skel configs with the originals
 
+crontab -l|grep -v '/etc/profileplus/sbin/protectshellconfigs' >/tmp/pfuninstall-cron
+crontab /tmp/pfuninstall-cron
+rm /tmp/pfuninstall-cron
 crontab -l|grep -v '/etc/profileplus/sbin/rlogupdate' >/tmp/ppuninstall-cron
 crontab /tmp/ppuninstall-cron
 rm /tmp/ppuninstall-cron
