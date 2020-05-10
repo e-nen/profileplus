@@ -31,13 +31,12 @@ if [ -f "/etc/skel/.bashrc" ] && [ "`stat -c %s /etc/skel/.bashrc`" -ne 20 ] && 
 		chown root:root /etc/skel-originals
 		chmod 000 /etc/skel-originals
 	fi
-	mv /etc/skel/.bashrc /etc/skel-originals/.bashrc &>/dev/null
+	mv /etc/skel/.bashrc "/etc/skel-originals/.bashrc-$(date +'%m%d%Y%H%M%S')" &>/dev/null
 fi
 touch /etc/skel/.bashrc &>/dev/null
-echo 'source /etc/profile' >>/etc/skel/.bashrc
+echo 'source /etc/profile' >/etc/skel/.bashrc
 chown root:root /etc/skel/.bashrc &>/dev/null
 chmod 644 /etc/skel/.bashrc &>/dev/null
-chattr +i /etc/skel/.bashrc &>/dev/null
 
 if [ -f "/etc/skel/.bash_profile" ] && [ "`stat -c %s /etc/skel/.bash_profile`" -ne 0 ]; then
 	if ! [ -d /etc/skel-originals ]; then
@@ -45,12 +44,11 @@ if [ -f "/etc/skel/.bash_profile" ] && [ "`stat -c %s /etc/skel/.bash_profile`" 
 		chown root:root /etc/skel-originals
 		chmod 000 /etc/skel-originals
 	fi
-	mv /etc/skel/.bash_profile /etc/skel-originals/.bash_profile &>/dev/null
+	mv /etc/skel/.bash_profile "/etc/skel-originals/.bash_profile-$(date +'%m%d%Y%H%M%S')" &>/dev/null
 fi
 touch /etc/skel/.bash_profile &>/dev/null
 chown root:root /etc/skel/.bash_profile &>/dev/null
 chmod 644 /etc/skel/.bash_profile &>/dev/null
-chattr +i /etc/skel/.bash_profile &>/dev/null
 
 if [ -f "/etc/skel/.profile" ] && [ "`stat -c %s /etc/skel/.profile`" -ne 0 ]; then
 	if ! [ -d /etc/skel-originals ]; then
@@ -58,12 +56,11 @@ if [ -f "/etc/skel/.profile" ] && [ "`stat -c %s /etc/skel/.profile`" -ne 0 ]; t
 		chown root:root /etc/skel-originals
 		chmod 000 /etc/skel-originals
 	fi
-	mv /etc/skel/.profile /etc/skel-originals/.profile &>/dev/null
+	mv /etc/skel/.profile "/etc/skel-originals/.profile-$(date +'%m%d%Y%H%M%S')" &>/dev/null
 fi
 touch /etc/skel/.profile &>/dev/null
 chown root:root /etc/skel/.profile &>/dev/null
 chmod 644 /etc/skel/.profile &>/dev/null
-chattr +i /etc/skel/.profile &>/dev/null
 
 PASSWDLEN=`wc -l /etc/passwd|awk '{ print $1 }'`
 FORLIM=$(($PASSWDLEN+1))
@@ -88,24 +85,21 @@ do
 					cp /etc/skel/.bashrc "$CURHOME/.bashrc" &>/dev/null
 					chown root:root "$CURHOME/.bashrc" &>/dev/null
 					chmod 644 "$CURHOME/.bashrc" &>/dev/null
-					chattr +i "$CURHOME/.bashrc" &>/dev/null
 				fi
 				if [ -f "$CURHOME/.bash_profile" ] && [ "`stat -c %s $CURHOME/.bash_profile`" -ne 0 ]; then
 					rm -f "$CURHOME/.bash_profile" &>/dev/null
 					cp /etc/skel/.bash_profile "$CURHOME/.bash_profile" &>/dev/null
 					chown root:root "$CURHOME/.bash_profile" &>/dev/null
 					chmod 644 "$CURHOME/.bash_profile" &>/dev/null
-					chattr +i "$CURHOME/.bash_profile" &>/dev/null
 				fi
 				if [ -f "$CURHOME/.profile" ] && [ "`stat -c %s $CURHOME/.profile`" -ne 0 ]; then
 					rm -f "$CURHOME/.profile" &>/dev/null
 					cp /etc/skel/.profile "$CURHOME/.profile" &>/dev/null
 					chown root:root "$CURHOME/.profile" &>/dev/null
 					chmod 644 "$CURHOME/.profile" &>/dev/null
-					chattr +i "$CURHOME/.profile" &>/dev/null
 				fi
 			else
-				echo "ERROR: $CURUSER home directory $CURHOME does not exist"|logger
+				echo "ERROR: $CURUSER home directory $CURHOME does not exist"
 			fi
 			;;
 		*)
