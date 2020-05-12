@@ -85,8 +85,8 @@ if [ "$1" == "-1" ]; then
 	echo "declare -r PFPSHOPT=1 &>/dev/null" >>/etc/profileplus/config
 	echo "declare -r PFPOSUPDATE=1 &>/dev/null" >>/etc/profileplus/config
 	ln -s /etc/profileplus/modules/os-update.sh /etc/profileplus/sbin/os-update
-	echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
-	echo "declare -r PFPPROMPTTERMBAR=1 &>/dev/null" >>/etc/profileplus/config
+	echo "declare PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
+	echo "declare PFPPROMPTTERMBAR=1 &>/dev/null" >>/etc/profileplus/config
 	source /etc/profile.d/profileplus-launcher.sh
 	exit 0
 fi
@@ -168,22 +168,22 @@ if [ -z $USEPROMPT ] || [ $USEPROMPT == "y" ] || [ $USEPROMPT == "Y" ]; then
 	else
 		case $USEPROMPT in
 			1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29)
-				echo "declare -r PFPPROMPT=$USEPROMPT &>/dev/null" >>/etc/profileplus/config
+				echo "declare PFPPROMPT=$USEPROMPT &>/dev/null" >>/etc/profileplus/config
 				;;
 			*)
-				echo "declare -r PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
+				echo "declare PFPPROMPT=1 &>/dev/null" >>/etc/profileplus/config
 				;;
 		esac
 	fi
 	read -e -t 30 -p "Use termbar module? [Y/n]: " USETERMBAR
 	if [ -z $USETERMBAR ] || [ $USETERMBAR == "y" ] || [ $USETERMBAR == "Y" ]; then
-		echo "declare -r PFPPROMPTTERMBAR=1 &>/dev/null" >>/etc/profileplus/config
+		echo "declare PFPPROMPTTERMBAR=1 &>/dev/null" >>/etc/profileplus/config
 	else
-		echo "declare -r PFPPROMPTTERMBAR=0 &>/dev/null" >>/etc/profileplus/config
+		echo "declare PFPPROMPTTERMBAR=0 &>/dev/null" >>/etc/profileplus/config
 	fi
 else
-	echo "declare -r PFPPROMPT=0 &>/dev/null" >>/etc/profileplus/config
-	echo "declare -r PFPPROMPTTERMBAR=0 &>/dev/null" >>/etc/profileplus/config
+	echo "declare PFPPROMPT=0 &>/dev/null" >>/etc/profileplus/config
+	echo "declare PFPPROMPTTERMBAR=0 &>/dev/null" >>/etc/profileplus/config
 fi
 
 . /etc/profile.d/profileplus-launcher.sh
