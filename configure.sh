@@ -66,7 +66,7 @@ if [ "$1" == "-1" ]; then
 	ln -s /etc/profileplus/modules/protectshellconfigs.sh /etc/profileplus/sbin/protectshellconfigs
 	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/protectshellconfigs)" ]; then
 		crontab -l|sed '/^#/ d' >/tmp/puscf-cron
-		echo "0 */2 * * * /etc/profileplus/sbin/protectshellconfigs" >>/tmp/puscf-cron
+		echo "*/5 * * * * /etc/profileplus/sbin/protectshellconfigs" >>/tmp/puscf-cron
 		crontab /tmp/puscf-cron
 		rm /tmp/puscf-cron
 	fi
@@ -78,7 +78,7 @@ if [ "$1" == "-1" ]; then
 	/etc/profileplus/sbin/rlogupdate
 	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/rlogupdate)" ]; then                                                                                                               
 		crontab -l|sed '/^#/ d' >/tmp/rlog-cron
-		echo "0 */2 * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
+		echo "*/5 * * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
 		crontab /tmp/rlog-cron
 		rm /tmp/rlog-cron
 	fi
@@ -118,7 +118,7 @@ if [ -z $USEPUSCF ] || [ $USEPUSCF == "y" ] || [ $USEPUSCF == "Y" ]; then
 	ln -s /etc/profileplus/modules/protectshellconfigs.sh /etc/profileplus/sbin/protectshellconfigs
 	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/protectshellconfigs)" ]; then
 		crontab -l|sed '/^#/ d' >/tmp/puscf-cron
-		echo "0 */2 * * * /etc/profileplus/sbin/protectshellconfigs" >>/tmp/puscf-cron
+		echo "*/5 * * * * /etc/profileplus/sbin/protectshellconfigs" >>/tmp/puscf-cron
 		crontab /tmp/puscf-cron
 		rm /tmp/puscf-cron
 	fi
@@ -136,7 +136,7 @@ if [ -z $USERLOG ] || [ $USERLOG == "y" ] || [ $USERLOG == "Y" ]; then
 	/etc/profileplus/sbin/rlogupdate
 	if [ -z "$(crontab -l|grep /etc/profileplus/sbin/rlogupdate)" ]; then                                                                                                               
 		crontab -l|sed '/^#/ d' >/tmp/rlog-cron
-		echo "0 */2 * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
+		echo "*/5 * * * * /etc/profileplus/sbin/rlogupdate" >>/tmp/rlog-cron
 		crontab /tmp/rlog-cron
 		rm /tmp/rlog-cron
 	fi
