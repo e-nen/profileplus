@@ -47,21 +47,10 @@ else
     errordie 'unsupported OS'
 fi
 
-if [ $OSVAR = 1 ]; then
-    checkdependency 'apt' 'tail' 'updatedb' 'checkrestart'
-elif [ $OSVAR = 2 ]; then
-# do extra check to see which version of redhat to support dnf
-#   checkdependency 'dnf'
-    checkdependency 'yum'
-elif [ $OSVAR = 3 ]; then
-    checkdependency 'apk'
-elif [ $OSVAR = 4 ]; then
-    checkdependency 'getopt' 'date' 'chown' 'chmod' 'rm' 'xargs' 'find' 'emerge' 'emerge-webrsync' 'eselect' 'gcc-config' 'etc-update' 'revdep-rebuild' 'perl-cleaner'
-fi
-
 # each of these needs error checking at every step
 case $OSVAR in
     1)
+        checkdependency 'apt' 'tail' 'updatedb' 'checkrestart'
         date
         apt update
         apt -y -q dist-upgrade --fix-missing
@@ -77,15 +66,19 @@ case $OSVAR in
 		;;
     2)
 # figure out which version of redhat and run one of the following
-#        dnf update
+        checkdependency 'yum'
         yum update
+#        checkdependency 'dnf'
+#        dnf update
         ;;
     3)
+        checkdependency 'apk'
         apk update
         apk upgrade -i -a
         ;;
     4)
 # squish all of the old gentooupdate.sh functions into this case statement...
+        checkdependency 'getopt' 'date' 'chown' 'chmod' 'rm' 'xargs' 'find' 'emerge' 'emerge-webrsync' 'eselect' 'gcc-config' 'etc-update' 'revdep-rebuild' 'perl-cleaner'
         errordie 'i didnt port the gentooupdate.sh code yet'
         ;;
 	*)
