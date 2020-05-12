@@ -184,22 +184,3 @@ showprompts()
 	echo -e "29. ${BCC[5]}username ${BCC[12]}path ${BCC[13]}\$ ${BCC[32]}./test"
 	return 0
 }
-
-setprompt()
-{
-	checkeuidroot
-	checkdependency 'sed'
-	case $1 in
-		1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29)
-			;;
-		*)
-			warnfail "invalid prompt selection"
-			;;
-	esac
-	if [ -f /etc/profileplus/config ]; then
-		sed -i "s/^.*PFPPROMPT=.*$/declare -r PFPPROMPT=$1 \&\>\/dev\/null/g" /etc/profileplus/config
-		prompt
-	else
-		warnfail "missing /etc/profileplus/config.. run configure.sh"
-	fi
-}
