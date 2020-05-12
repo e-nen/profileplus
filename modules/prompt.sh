@@ -117,7 +117,7 @@ setprompt()
 			;;
 	esac
 	if [ -f /etc/profileplus/config ]; then
-		sed -i "s/^.*PFPPROMPT=.*$/declare -r PFPPROMPT=$1 \&\>\/dev\/null/g" /etc/profileplus/config
+		sed -i "s/^.*PFPPROMPT=.*$/declare PFPPROMPT=$1 \&\>\/dev\/null/g" /etc/profileplus/config
 	else
 		warnfail "missing /etc/profileplus/config.. run configure.sh"
 	fi
