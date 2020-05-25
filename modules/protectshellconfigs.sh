@@ -85,15 +85,27 @@ do
 					cp /etc/skel/.bashrc "$CURHOME/.bashrc" &>/dev/null
 					chown root:root "$CURHOME/.bashrc" &>/dev/null
 					chmod 644 "$CURHOME/.bashrc" &>/dev/null
+				elif ! [ -f "$CURHOME/.bashrc" ]; then
+					cp /etc/skel/.bashrc "$CURHOME/.bashrc" &>/dev/null
+					chown root:root "$CURHOME/.bashrc" &>/dev/null
+					chmod 644 "$CURHOME/.bashrc" &>/dev/null
 				fi
 				if [ -f "$CURHOME/.bash_profile" ] && [ "`stat -c %s $CURHOME/.bash_profile`" -ne 0 ]; then
 					rm -f "$CURHOME/.bash_profile" &>/dev/null
 					cp /etc/skel/.bash_profile "$CURHOME/.bash_profile" &>/dev/null
 					chown root:root "$CURHOME/.bash_profile" &>/dev/null
 					chmod 644 "$CURHOME/.bash_profile" &>/dev/null
+				elif ! [ -f "$CURHOME/.bash_profile" ]; then
+					cp /etc/skel/.bash_profile "$CURHOME/.bash_profile" &>/dev/null
+					chown root:root "$CURHOME/.bash_profile" &>/dev/null
+					chmod 644 "$CURHOME/.bash_profile" &>/dev/null
 				fi
 				if [ -f "$CURHOME/.profile" ] && [ "`stat -c %s $CURHOME/.profile`" -ne 0 ]; then
 					rm -f "$CURHOME/.profile" &>/dev/null
+					cp /etc/skel/.profile "$CURHOME/.profile" &>/dev/null
+					chown root:root "$CURHOME/.profile" &>/dev/null
+					chmod 644 "$CURHOME/.profile" &>/dev/null
+				elif ! [ -f "$CURHOME/.profile" ]; then
 					cp /etc/skel/.profile "$CURHOME/.profile" &>/dev/null
 					chown root:root "$CURHOME/.profile" &>/dev/null
 					chmod 644 "$CURHOME/.profile" &>/dev/null
