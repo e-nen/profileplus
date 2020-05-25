@@ -22,7 +22,7 @@
 
 if [ $EUID != "0" ]; then
 	echo "ERROR: root user privileges required"
-        exit 1
+	exit 1
 fi
 
 if [ -f "/etc/skel/.bashrc" ] && [ "`stat -c %s /etc/skel/.bashrc`" -ne 20 ] && [ -z "`grep 'source /etc/profile' /etc/skel/.bashrc`" ]; then
