@@ -52,12 +52,12 @@ case $OSVAR in
     1)
         checkdependency 'apt' 'tail' 'updatedb' 'checkrestart'
         date
-        apt-get -y -qq update
-        apt-get -y -qq -o Dpkg::Progress=0 -o Dpkg::Progress-Fancy=0 dist-upgrade --fix-missing
-        apt-get -y -qq clean
-        apt-get -y -qq autoremove
-        apt-get -y -qq autoclean
-        apt-get -y -qq purge $(dpkg -l | tail -n +6 | grep -v '^ii' | awk '{print $2}')
+        apt-get -y -q update
+        apt-get -y -q -o Dpkg::Progress=0 -o Dpkg::Progress-Fancy=0 dist-upgrade --fix-missing
+        apt-get -y -q clean
+        apt-get -y -q autoremove
+        apt-get -y -q autoclean
+        apt-get -y -q purge $(dpkg -l | tail -n +6 | grep -v '^ii' | awk '{print $2}')
         updatedb
         checkrestart
         if [ -f /var/run/reboot-required ]; then
