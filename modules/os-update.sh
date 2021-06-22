@@ -58,7 +58,7 @@ case $OSVAR in
         apt-get -y -q autoremove
         apt-get -y -q autoclean
         apt-get -y -q purge $(dpkg -l | tail -n +6 | grep -v '^ii' | awk '{print $2}')
-	echo "$(date) updatedb start"
+	echo "$(date) updatedb started"
         updatedb
 	echo "$(date) updatedb finished"
         checkrestart
