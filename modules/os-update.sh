@@ -65,7 +65,7 @@ case $OSVAR in
         if [ -f /var/run/reboot-required ]; then
                 echo;cat /var/run/reboot-required;echo
         fi
-		;;
+	;;
     2)
 # figure out which version of redhat and run one of the following
         checkdependency 'yum'
@@ -83,7 +83,7 @@ case $OSVAR in
         checkdependency 'getopt' 'date' 'chown' 'chmod' 'rm' 'xargs' 'find' 'emerge' 'emerge-webrsync' 'eselect' 'gcc-config' 'etc-update' 'revdep-rebuild' 'perl-cleaner'
         errordie 'i didnt port the gentooupdate.sh code yet'
         ;;
-	*)
+    *)
         errordie 'no bueno..'
-		;;
+	;;
 esac
