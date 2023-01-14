@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2020 Blacklabs.io
+#    Copyright (C) 2023 nickelplated.net
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
