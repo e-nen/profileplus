@@ -50,14 +50,17 @@ fi
 # each of these needs error checking at every step
 case $OSVAR in
     1)
-        checkdependency 'apt' 'tail' 'updatedb' 'checkrestart'
+        checkdependency 'apt' 'aptitude' 'dpkg' 'tail' 'updatedb' 'checkrestart'
         date
-        apt-get -y -q update
-        apt-get -y -q -o Dpkg::Progress=0 -o Dpkg::Progress-Fancy=0 dist-upgrade --fix-missing
+	aptitude update
+	aptitude -y full-upgrade
         apt-get -y -q clean
         apt-get -y -q autoremove
         apt-get -y -q autoclean
         apt-get -y -q purge $(dpkg -l | tail -n +6 | grep -v '^ii' | awk '{print $2}')
+	if [ -x "`which snap`" ]; then
+		snap refresh
+	fi
 	echo "$(date) updatedb started"
         updatedb
 	echo "$(date) updatedb finished"
