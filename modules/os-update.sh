@@ -61,9 +61,10 @@ case $OSVAR in
 	if [ -x "`which snap`" ]; then
 		snap refresh
 	fi
-	echo "$(date) updatedb started"
-        updatedb
-	echo "$(date) updatedb finished"
+# disabling this... possibly removing it entirely
+#	echo "$(date) updatedb started"
+#        updatedb
+#	echo "$(date) updatedb finished"
         checkrestart
         if [ -f /var/run/reboot-required ]; then
                 echo;cat /var/run/reboot-required;echo
