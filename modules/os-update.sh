@@ -78,7 +78,7 @@ case $OSVAR in
         fi
         echo "$(date) updatedb started"
         updatedb
-    	echo "$(date) updatedb finished"
+        echo "$(date) updatedb finished"
         needs-restarting -r
         ;;
     3)
