@@ -48,7 +48,7 @@ fi
 if [ -e /etc/gentoo-release ]; then
     OSVAR=4
 fi
-if [ $OSVAR == 0 ];
+if [ $OSVAR == 0 ]; then
     errordie 'unsupported OS'
 fi
 
