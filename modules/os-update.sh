@@ -52,8 +52,8 @@ case $OSVAR in
     1)
         checkdependency 'apt' 'aptitude' 'dpkg' 'tail' 'updatedb' 'checkrestart'
         date
-	aptitude update
-	aptitude -y full-upgrade
+        aptitude update
+        aptitude -y full-upgrade
         apt-get -y -q clean
         apt-get -y -q autoremove
         apt-get -y -q autoclean
@@ -61,21 +61,25 @@ case $OSVAR in
 	if [ -x "`which snap`" ]; then
 		snap refresh
 	fi
-# disabling this... possibly removing it entirely
-#	echo "$(date) updatedb started"
-#        updatedb
-#	echo "$(date) updatedb finished"
+	echo "$(date) updatedb started"
+        updatedb
+	echo "$(date) updatedb finished"
         checkrestart
         if [ -f /var/run/reboot-required ]; then
                 echo;cat /var/run/reboot-required;echo
         fi
-	;;
+    	;;
     2)
-# figure out which version of redhat and run one of the following
-        checkdependency 'yum'
-        yum update
-#        checkdependency 'dnf'
-#        dnf update
+        checkdependency 'dnf' 'updatedb' 'needs-restarting'
+        date
+        dnf upgrade -y
+        if [ -x "`which flatpak`" ]; then
+            flatpak upgrade -y
+        fi
+        echo "$(date) updatedb started"
+        updatedb
+    	echo "$(date) updatedb finished"
+        needs-restarting -r
         ;;
     3)
         checkdependency 'apk'
