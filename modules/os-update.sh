@@ -31,23 +31,27 @@ checkeuidroot
 checkdependency 'grep' 'awk'
 
 OSVAR=0
-if [ -f /etc/os-release ]; then
+if [ -e /etc/os-release ]; then
     if [ $(grep ID_LIKE /etc/os-release|awk -F= '{print $2}') == "debian" ]; then
         OSVAR=1
     fi
-elif [ -f /etc/redhat-release ]; then
+fi
+if [ -e /etc/redhat-release ]; then
     OSVAR=2
-elif [ -f /etc/centos-release ]; then
+fi
+if [ -e /etc/centos-release ]; then
     OSVAR=2
-elif [ -f /etc/alpine-release ]; then
+fi
+if [ -e /etc/alpine-release ]; then
     OSVAR=3
-elif [ -f /etc/gentoo-release ]; then
+fi
+if [ -e /etc/gentoo-release ]; then
     OSVAR=4
-else
+fi
+if [ $OSVAR == 0 ];
     errordie 'unsupported OS'
 fi
 
-# each of these needs error checking at every step
 case $OSVAR in
     1)
         checkdependency 'apt' 'aptitude' 'dpkg' 'tail' 'updatedb' 'checkrestart'
@@ -58,15 +62,15 @@ case $OSVAR in
         apt-get -y -q autoremove
         apt-get -y -q autoclean
         apt-get -y -q purge $(dpkg -l | tail -n +6 | grep -v '^ii' | awk '{print $2}')
-	if [ -x "`which snap`" ]; then
-		snap refresh
-	fi
-	echo "$(date) updatedb started"
+        if [ -x "`which snap`" ]; then
+            snap refresh
+        fi
+        echo "$(date) updatedb started"
         updatedb
-	echo "$(date) updatedb finished"
+        echo "$(date) updatedb finished"
         checkrestart
         if [ -f /var/run/reboot-required ]; then
-                echo;cat /var/run/reboot-required;echo
+            echo;cat /var/run/reboot-required;echo
         fi
     	;;
     2)
