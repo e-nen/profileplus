@@ -32,7 +32,7 @@ checkdependency 'grep' 'awk'
 
 OSVAR=0
 if [ -e /etc/os-release ]; then
-    if [ $(grep ID_LIKE /etc/os-release|awk -F= '{print $2}') == "debian" ]; then
+    if [ "$(grep ID_LIKE /etc/os-release|awk -F= '{print $2}')" == "debian" ]; then
         OSVAR=1
     fi
 fi
