@@ -74,7 +74,7 @@ case $OSVAR in
         fi
     	;;
     2)
-        checkdependency 'dnf' 'updatedb' 'needs-restarting'
+        checkdependency 'dnf' 'updatedb'
         date
         dnf upgrade -y
         if [ -x "`which flatpak`" ]; then
@@ -83,7 +83,7 @@ case $OSVAR in
         echo "$(date) updatedb started"
         updatedb
         echo "$(date) updatedb finished"
-        needs-restarting -r
+        dnf needs-restarting -r
         ;;
     3)
         checkdependency 'apk'
